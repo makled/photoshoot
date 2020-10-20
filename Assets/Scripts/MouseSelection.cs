@@ -72,6 +72,8 @@ namespace mkld.Photoshoot
 
         void SetSelectionMaterial(Renderer renderer)
         {
+            renderer.material = SelectionMaterial;
+            renderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
             for (int i = 0; i < renderer.materials.Length; i++)
             {
                 renderer.materials[i] = SelectionMaterial;
