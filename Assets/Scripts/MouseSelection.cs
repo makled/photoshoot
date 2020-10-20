@@ -10,7 +10,19 @@ namespace mkld.Photoshoot
 
         [Tooltip("This material will be used to identify selected object")]
         public Material SelectionMaterial;
+        public static MouseSelection Instance;
         // Start is called before the first frame update
+        void Awake()
+        {
+            if(Instance == null)
+            {
+                Instance = this;
+            }
+            else
+            {
+                Destroy(this.gameObject);
+            }
+        }
         void Start()
         {
 
