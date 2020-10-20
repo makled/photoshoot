@@ -61,6 +61,7 @@ public class CameraMouseController : MonoBehaviour
             rotationY = Input.GetAxis(mouseHorizontalAxisName) * rotationSensitiviry;
         }
 
+        //Rotate Around Object added by mkld
         if (isAltPressed)
         {
             Vector3 rotationPosition = transform.position + transform.forward * 10;
