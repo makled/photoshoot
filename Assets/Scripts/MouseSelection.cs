@@ -11,10 +11,11 @@ namespace mkld.Photoshoot
         [Tooltip("This material will be used to identify selected object")]
         public Material SelectionMaterial;
         public static MouseSelection Instance;
+        private GameObject shadowObject;
         // Start is called before the first frame update
         void Awake()
         {
-            if(Instance == null)
+            if (Instance == null)
             {
                 Instance = this;
             }
@@ -53,9 +54,13 @@ namespace mkld.Photoshoot
 
                 selectedObject = hitInfo.transform.gameObject;
 
-                GameObject obj = Instantiate(selectedObject, this.transform);
+                GameObject obj = Instantiate(selectedObject, selectedObject.transform);
                 obj.transform.position = selectedObject.transform.position;
                 obj.transform.rotation = selectedObject.transform.rotation;
+
+                obj.GetComponent<Collider>().enabled = false;
+                
+                shadowObject = obj;
 
                 SetSelectionMaterial(obj.GetComponent<Renderer>());
             }
@@ -69,17 +74,18 @@ namespace mkld.Photoshoot
         void RemoveSelection()
         {
             selectedObject = null;
-            foreach (var child in GetComponentsInChildren<Transform>())
-            {
-                if (child.gameObject.CompareTag("SelectionManager"))
-                {
-                    continue;
-                }
-                else
-                {
-                    Destroy(child.gameObject);
-                }
-            }
+            Destroy(shadowObject);
+
+            // foreach (var child in GetComponentsInChildren<Transform>())
+            // {
+            //     if (child.gameObject.CompareTag("SelectionManager"))
+            //     {
+            //         continue;
+            //     }
+            //     else
+            //     {
+            //     }
+            // }
         }
 
         void SetSelectionMaterial(Renderer renderer)

@@ -44,7 +44,7 @@ namespace mkld.Photoshoot
         {
             if (MouseSelection.Instance.GetSelectedObject() == null)
                 return;
-            
+
             MouseSelection.Instance.GetSelectedObject().transform.Translate(translateX, 0f, translateY);
         }
     }
