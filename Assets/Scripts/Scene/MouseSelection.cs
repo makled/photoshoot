@@ -11,7 +11,7 @@ namespace mkld.Photoshoot
         [Tooltip("This material will be used to identify selected object")]
         public Material SelectionMaterial;
         public static MouseSelection Instance;
-        private GameObject shadowObject;
+        private GameObject outlineObject;
         // Start is called before the first frame update
         void Awake()
         {
@@ -59,10 +59,10 @@ namespace mkld.Photoshoot
                 obj.transform.rotation = selectedObject.transform.rotation;
 
                 obj.GetComponent<Collider>().enabled = false;
-                
-                shadowObject = obj;
 
-                SetSelectionMaterial(obj.GetComponent<Renderer>());
+                outlineObject = obj;
+                Renderer[] renderers = outlineObject.GetComponentsInChildren<Renderer>();
+                SetSelectionMaterial(renderers);
             }
             else
             {
@@ -74,7 +74,7 @@ namespace mkld.Photoshoot
         void RemoveSelection()
         {
             selectedObject = null;
-            Destroy(shadowObject);
+            Destroy(outlineObject);
 
             // foreach (var child in GetComponentsInChildren<Transform>())
             // {
@@ -88,13 +88,20 @@ namespace mkld.Photoshoot
             // }
         }
 
-        void SetSelectionMaterial(Renderer renderer)
+        void SetSelectionMaterial(Renderer[] renderers)
         {
-            renderer.material = SelectionMaterial;
-            renderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
-            for (int i = 0; i < renderer.materials.Length; i++)
+            foreach (var renderer in renderers)
             {
-                renderer.materials[i] = SelectionMaterial;
+                renderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+
+                Material[] mats = new Material[renderer.materials.Length];
+
+                for (int i = 0; i < mats.Length; i++)
+                {
+                    mats[i] = SelectionMaterial;
+                }
+
+                renderer.materials = mats;
             }
         }
     }
