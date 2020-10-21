@@ -50,19 +50,32 @@ namespace mkld.Photoshoot
 
             if (hit)
             {
-                RemoveSelection();
+                if (hitInfo.transform.gameObject.CompareTag("SelectableObject"))
+                {
+                    RemoveSelection();
 
-                selectedObject = hitInfo.transform.gameObject;
+                    selectedObject = hitInfo.transform.gameObject;
 
-                GameObject obj = Instantiate(selectedObject, selectedObject.transform);
-                obj.transform.position = selectedObject.transform.position;
-                obj.transform.rotation = selectedObject.transform.rotation;
+                    GameObject obj = Instantiate(selectedObject, selectedObject.transform);
+                    obj.transform.position = selectedObject.transform.position;
+                    obj.transform.rotation = selectedObject.transform.rotation;
 
-                obj.GetComponent<Collider>().enabled = false;
+                    obj.GetComponent<Collider>().enabled = false;
 
-                outlineObject = obj;
-                Renderer[] renderers = outlineObject.GetComponentsInChildren<Renderer>();
-                SetSelectionMaterial(renderers);
+                    outlineObject = obj;
+                    Renderer[] renderers = outlineObject.GetComponentsInChildren<Renderer>();
+                    SetSelectionMaterial(renderers);
+
+                    //selectedObject.GetComponentInChildren<RotationUIController>(true).gameObject.SetActive(true);
+                    //ROTATION UI CONTROLLER ADJUSTMENT
+                    TransformationManager.Instance.ShowRotationUI(true);
+                    RotationUIController.Instance.SetUIController(selectedObject.transform.position);
+                }
+
+                if (hitInfo.transform.gameObject.GetComponent<RotationUIController>())
+                {
+                    hitInfo.transform.gameObject.GetComponent<RotationUIController>().SetInteraction(true);
+                }
             }
             else
             {
@@ -73,6 +86,11 @@ namespace mkld.Photoshoot
 
         void RemoveSelection()
         {
+            if (selectedObject != null)
+            {
+                TransformationManager.Instance.ShowRotationUI(false);
+            }
+
             selectedObject = null;
             Destroy(outlineObject);
 

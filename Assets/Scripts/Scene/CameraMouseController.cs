@@ -18,9 +18,19 @@ public class CameraMouseController : MonoBehaviour
     public bool isAltPressed;
 
     Camera _camera;
+    public static CameraMouseController Instance;
 
     void Awake()
     {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(this.gameObject);
+        }
+
         _camera = GetComponent<Camera>();
     }
 
