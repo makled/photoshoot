@@ -28,13 +28,27 @@ namespace mkld.Photoshoot
         // Update is called once per frame
         void Update()
         {
-
+            if(Input.GetKeyUp(KeyCode.Delete))
+            {
+                RemoveObject();
+            }
         }
 
         public void AddObject(GameObject obj)
         {
             GameObject spawnedObj = Instantiate(obj);
             SpawnedObjects.Add(spawnedObj);
+            spawnedObj.tag = "SelectableObject";
+        }
+
+        public void RemoveObject()
+        {
+            if(MouseSelection.Instance.GetSelectedObject())
+            {
+                GameObject removeObject = MouseSelection.Instance.GetSelectedObject();
+                SpawnedObjects.Remove(removeObject);
+                Destroy(removeObject);
+            }
         }
 
     }
