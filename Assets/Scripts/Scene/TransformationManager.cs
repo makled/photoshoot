@@ -12,7 +12,9 @@ namespace mkld.Photoshoot
         public string mouseVerticalAxisName = "Mouse Y";
         public GameObject Space;
 
-        public GameObject RotationUIControllerObject;
+        public GameObject RotationUIControllerObjectX;
+        public GameObject RotationUIControllerObjectY;
+
 
         void Awake()
         {
@@ -45,26 +47,33 @@ namespace mkld.Photoshoot
 
         public void Move(float translateX, float translateY)
         {
-            if (MouseSelection.Instance.GetSelectedObject() == null || RotationUIControllerObject.GetComponent<RotationUIController>().isInteracting)
+            if (MouseSelection.Instance.GetSelectedObject() == null 
+            || RotationUIControllerObjectX.GetComponent<RotationUIController>().isInteracting
+            || RotationUIControllerObjectY.GetComponent<RotationUIController>().isInteracting)
                 return;
-            
+
             Space.transform.position = CameraMouseController.Instance.transform.position;
             Space.transform.localEulerAngles = new Vector3(0f, CameraMouseController.Instance.transform.localEulerAngles.y, 0f);
             MouseSelection.Instance.GetSelectedObject().transform.Translate(translateX, 0f, translateY, Space.transform);
-            RotationUIControllerObject.transform.position = MouseSelection.Instance.GetSelectedObject().transform.position;
+            RotationUIControllerObjectX.transform.position = MouseSelection.Instance.GetSelectedObject().transform.position;
+            RotationUIControllerObjectY.transform.position = MouseSelection.Instance.GetSelectedObject().transform.position;
+
         }
 
-        public void RotateSelectedObject(float rotationY)
+        public void RotateSelectedObject(Vector3 rotation)
         {
             if (MouseSelection.Instance.GetSelectedObject() == null)
                 return;
 
-            MouseSelection.Instance.GetSelectedObject().transform.Rotate(0f, -rotationY, 0f);
+            MouseSelection.Instance.GetSelectedObject().transform.Rotate(rotation, UnityEngine.Space.World);
         }
 
         public void ShowRotationUI(bool value)
         {
-            RotationUIControllerObject.SetActive(value);
+            RotationUIControllerObjectX.transform.position = MouseSelection.Instance.GetSelectedObject().transform.position;
+            RotationUIControllerObjectX.SetActive(value);
+            RotationUIControllerObjectY.transform.position = MouseSelection.Instance.GetSelectedObject().transform.position;
+            RotationUIControllerObjectY.SetActive(value);
         }
     }
 }

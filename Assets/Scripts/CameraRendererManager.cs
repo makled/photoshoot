@@ -9,6 +9,8 @@ namespace mkld.Photoshoot
         private Camera selectedCamera;
         [Tooltip("Reference to the render texture for the camera")]
         public RenderTexture RendTextureRef;
+        public Animator AnimatorController;
+        private bool isExpand;
         // Start is called before the first frame update
         void Start()
         {
@@ -18,7 +20,23 @@ namespace mkld.Photoshoot
         // Update is called once per frame
         void Update()
         {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                ExpandWindow();
+                isExpand = !isExpand;
+            }
+        }
 
+        public void ExpandWindow()
+        {
+            if (isExpand)
+            {
+                AnimatorController.SetTrigger("Minimize");
+            }
+            else
+            {
+                AnimatorController.SetTrigger("Expand");
+            }
         }
 
         // public void SetSelectedCamera(Camera cam)

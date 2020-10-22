@@ -55,6 +55,7 @@ namespace mkld.Photoshoot
                     RemoveSelection();
 
                     selectedObject = hitInfo.transform.gameObject;
+                    selectedObject.GetComponent<SelectableObject>().SelectObject();
 
                     GameObject obj = Instantiate(selectedObject, selectedObject.transform);
                     obj.transform.position = selectedObject.transform.position;
@@ -69,7 +70,7 @@ namespace mkld.Photoshoot
                     //selectedObject.GetComponentInChildren<RotationUIController>(true).gameObject.SetActive(true);
                     //ROTATION UI CONTROLLER ADJUSTMENT
                     TransformationManager.Instance.ShowRotationUI(true);
-                    RotationUIController.Instance.SetUIController(selectedObject.transform.position);
+                    // RotationUIController.Instance.SetUIController(selectedObject.transform.position);
                 }
 
                 if (hitInfo.transform.gameObject.GetComponent<RotationUIController>())
@@ -88,6 +89,7 @@ namespace mkld.Photoshoot
         {
             if (selectedObject != null)
             {
+                selectedObject.GetComponent<SelectableObject>().DeselectObject();
                 TransformationManager.Instance.ShowRotationUI(false);
             }
 
