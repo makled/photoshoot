@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7405cded78f292b4d86de260bb496c15, type: 3}
+  m_Name: LightSource
+  m_EditorClassIdentifier: 
+  Name: Light Source
+  Description: A light source to be used in your scene
+  ObjectPrefabAssetReference: {fileID: 3256667339714451619, guid: 2e0b1fe8238e5154a9a351e50190bc0c, type: 3}
+  UIImage: {fileID: 21300000, guid: 4eec05dbd3fff4c4db18746d1a60a4ab, type: 3}
+  ObjectType: 1
+  OutlineObject: {fileID: 0}

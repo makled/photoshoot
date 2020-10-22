@@ -15,4 +15,6 @@ MonoBehaviour:
   Name: Camera
   Description: 
   ObjectPrefabAssetReference: {fileID: 7462726945075347928, guid: 54deb384f6515c345b7921421ff9039b, type: 3}
-  UIImage: {fileID: 21300000, guid: 28285925374338e44be6da0dff82dc1b, type: 3}
+  UIImage: {fileID: 21300000, guid: 174fac1b53108b2438a918203418af38, type: 3}
+  ObjectType: 2
+  OutlineObject: {fileID: 0}

@@ -50,32 +50,44 @@ namespace mkld.Photoshoot
 
             if (hit)
             {
-                if (hitInfo.transform.gameObject.CompareTag("SelectableObject"))
+                if (hitInfo.transform.gameObject.GetComponent<SelectableObject>())
                 {
                     RemoveSelection();
 
                     selectedObject = hitInfo.transform.gameObject;
                     selectedObject.GetComponent<SelectableObject>().SelectObject();
 
-                    GameObject obj = Instantiate(selectedObject, selectedObject.transform);
-                    obj.transform.position = selectedObject.transform.position;
-                    obj.transform.rotation = selectedObject.transform.rotation;
 
-                    obj.GetComponent<Collider>().enabled = false;
+                    // GameObject obj = Instantiate(selectedObject, selectedObject.transform);
+                    // Destroy(obj.GetComponent<Collider>());
+                    // Destroy(obj.GetComponent<SelectableObject>());
 
-                    outlineObject = obj;
-                    Renderer[] renderers = outlineObject.GetComponentsInChildren<Renderer>();
-                    SetSelectionMaterial(renderers);
+                    // obj.tag = "Untagged";
+                    // obj.transform.position = selectedObject.transform.position;
+                    // obj.transform.rotation = selectedObject.transform.rotation;
+
+                    // outlineObject = obj;
+
+                    // Renderer[] renderers = outlineObject.GetComponentsInChildren<Renderer>();
+                    // SetSelectionMaterial(renderers);
 
                     //selectedObject.GetComponentInChildren<RotationUIController>(true).gameObject.SetActive(true);
                     //ROTATION UI CONTROLLER ADJUSTMENT
                     TransformationManager.Instance.ShowRotationUI(true);
+                    TransformationManager.Instance.ShowYTranslationUI(true);
+
+                    //TransformationManager.Instance.SetTranslation(true);
                     // RotationUIController.Instance.SetUIController(selectedObject.transform.position);
                 }
 
                 if (hitInfo.transform.gameObject.GetComponent<RotationUIController>())
                 {
                     hitInfo.transform.gameObject.GetComponent<RotationUIController>().SetInteraction(true);
+                }
+
+                if (hitInfo.transform.gameObject.GetComponent<YTranslationUIController>())
+                {
+                    hitInfo.transform.gameObject.GetComponent<YTranslationUIController>().SetInteraction(true);
                 }
             }
             else
@@ -84,17 +96,18 @@ namespace mkld.Photoshoot
             }
         }
 
-
         void RemoveSelection()
         {
             if (selectedObject != null)
             {
                 selectedObject.GetComponent<SelectableObject>().DeselectObject();
                 TransformationManager.Instance.ShowRotationUI(false);
+                TransformationManager.Instance.ShowYTranslationUI(false);
+
             }
 
             selectedObject = null;
-            Destroy(outlineObject);
+            //Destroy(outlineObject);
 
             // foreach (var child in GetComponentsInChildren<Transform>())
             // {
@@ -108,21 +121,5 @@ namespace mkld.Photoshoot
             // }
         }
 
-        void SetSelectionMaterial(Renderer[] renderers)
-        {
-            foreach (var renderer in renderers)
-            {
-                renderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
-
-                Material[] mats = new Material[renderer.materials.Length];
-
-                for (int i = 0; i < mats.Length; i++)
-                {
-                    mats[i] = SelectionMaterial;
-                }
-
-                renderer.materials = mats;
-            }
-        }
     }
 }

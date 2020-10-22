@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace mkld.Photoshoot
 {
@@ -14,6 +15,9 @@ namespace mkld.Photoshoot
 
         public GameObject RotationUIControllerObjectX;
         public GameObject RotationUIControllerObjectY;
+        public GameObject YTranslationObject;
+
+        private bool isTranslating;
 
 
         void Awake()
@@ -36,8 +40,7 @@ namespace mkld.Photoshoot
         // Update is called once per frame
         void Update()
         {
-
-            if (Input.GetKey(KeyCode.Mouse0))
+            if (Input.GetKey(KeyCode.Mouse0) && !EventSystem.current.IsPointerOverGameObject())
             {
                 Move(Input.GetAxis(mouseHorizontalAxisName) * translationSensitivity,
                 Input.GetAxis(mouseVerticalAxisName) * translationSensitivity);
@@ -45,11 +48,21 @@ namespace mkld.Photoshoot
 
         }
 
+        public void SetTranslation(bool value)
+        {
+            isTranslating = value;
+        }
+
+        public void TranslateSelectedObject(Vector3 translation)
+        {
+            MouseSelection.Instance.GetSelectedObject().transform.Translate(translation, UnityEngine.Space.World);
+        }
         public void Move(float translateX, float translateY)
         {
             if (MouseSelection.Instance.GetSelectedObject() == null 
             || RotationUIControllerObjectX.GetComponent<RotationUIController>().isInteracting
-            || RotationUIControllerObjectY.GetComponent<RotationUIController>().isInteracting)
+            || RotationUIControllerObjectY.GetComponent<RotationUIController>().isInteracting
+            || YTranslationObject.GetComponent<YTranslationUIController>().isInteracting)
                 return;
 
             Space.transform.position = CameraMouseController.Instance.transform.position;
@@ -60,12 +73,12 @@ namespace mkld.Photoshoot
 
         }
 
-        public void RotateSelectedObject(Vector3 rotation)
+        public void RotateSelectedObject(Vector3 rotation, Space space)
         {
             if (MouseSelection.Instance.GetSelectedObject() == null)
                 return;
 
-            MouseSelection.Instance.GetSelectedObject().transform.Rotate(rotation, UnityEngine.Space.World);
+            MouseSelection.Instance.GetSelectedObject().transform.Rotate(rotation, space);
         }
 
         public void ShowRotationUI(bool value)
@@ -74,6 +87,11 @@ namespace mkld.Photoshoot
             RotationUIControllerObjectX.SetActive(value);
             RotationUIControllerObjectY.transform.position = MouseSelection.Instance.GetSelectedObject().transform.position;
             RotationUIControllerObjectY.SetActive(value);
+        }
+
+        public void ShowYTranslationUI(bool value)
+        {
+            YTranslationObject.SetActive(value);
         }
     }
 }

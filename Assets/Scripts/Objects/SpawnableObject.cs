@@ -18,6 +18,15 @@ namespace mkld.Photoshoot
         public GameObject ObjectPrefabAssetReference;
         [Tooltip("Image that will be displayed in the UI")]
         public Sprite UIImage;
+        public ObjectType ObjectType;
+        public GameObject OutlineObject;
+    }
+
+    public enum ObjectType
+    {
+        Actor,
+        Light,
+        Camera
     }
 }
 

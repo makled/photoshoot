@@ -34,11 +34,12 @@ namespace mkld.Photoshoot
             }
         }
 
-        public void AddObject(GameObject obj)
+        public void AddObject(SpawnableObject obj)
         {
-            GameObject spawnedObj = Instantiate(obj);
+            GameObject spawnedObj = Instantiate(obj.ObjectPrefabAssetReference);
             SpawnedObjects.Add(spawnedObj);
             spawnedObj.tag = "SelectableObject";
+            spawnedObj.GetComponent<SelectableObject>().SetObject(obj);
         }
 
         public void RemoveObject()

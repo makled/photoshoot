@@ -97,7 +97,17 @@ namespace mkld.Photoshoot
                 return;
 
             Indicator.transform.Rotate(rotation, Space.Self);
-            TransformationManager.Instance.RotateSelectedObject(rotation);
+            switch (MouseAxisName)
+            {
+                case "Mouse X":
+                    TransformationManager.Instance.RotateSelectedObject(rotation, Space.World);
+                    break;
+                case "Mouse Y":
+                    TransformationManager.Instance.RotateSelectedObject(rotation, Space.Self);
+                    break;
+                default:
+                    break;
+            }
         }
 
     }

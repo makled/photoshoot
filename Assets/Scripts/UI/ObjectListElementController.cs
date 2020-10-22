@@ -40,7 +40,7 @@ namespace mkld.Photoshoot
             if (ObjectReference == null)
                 return;
                 
-            GameObjectSpawnManager.Instance.AddObject(ObjectReference.ObjectPrefabAssetReference);
+            GameObjectSpawnManager.Instance.AddObject(ObjectReference);
             
         }
     }
